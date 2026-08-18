@@ -145,8 +145,8 @@ td.rownum{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);text-a
    The anon key is intended for browser use. Keep RLS enabled and
    grant only SELECT to anon for this read-only page.
    ============================================================ */
-const SUPABASE_URL = "https://YOUR_PROJECT_REF.supabase.co";
-const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+const SUPABASE_URL = "https://tamifxlkhcddqkwjajse.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRhbWlmeGxraGNkZHFrd2phanNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwMzU0NTgsImV4cCI6MjEwMjYxMTQ1OH0.7W0tdb9O53XhtyFFON6_s3laQ2cv8O4KWLGo7WNWH3Q";
 const PROJECT_CODE = "NH163G-PKG-III";
 
 const CATS = {
@@ -187,7 +187,7 @@ function normalise(rows){
 async function loadFromSupabase(){
   const status=$("#liveStatus");
   try{
-    if(SUPABASE_URL.includes("YOUR_PROJECT_REF")||SUPABASE_ANON_KEY.includes("YOUR_SUPABASE_ANON_KEY")) throw new Error("Add SUPABASE_URL and SUPABASE_ANON_KEY near the top of the script.");
+    if(SUPABASE_URL.includes("YOUR_PROJECT_REF")||SUPABASE_ANON_KEY.includes("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRhbWlmeGxraGNkZHFrd2phanNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwMzU0NTgsImV4cCI6MjEwMjYxMTQ1OH0.7W0tdb9O53XhtyFFON6_s3laQ2cv8O4KWLGo7WNWH3Q")) throw new Error("Add SUPABASE_URL and SUPABASE_ANON_KEY near the top of the script.");
     const fields="id,from_chainage,to_chainage,village,survey_nos,compensation_status,title_status,remarks,possession_status,status_class";
     const url=`${SUPABASE_URL}/rest/v1/land_acquisition_reaches?select=${encodeURIComponent(fields)}&project_code=eq.${encodeURIComponent(PROJECT_CODE)}&order=from_chainage.asc,to_chainage.asc`;
     const res=await fetch(url,{headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`,Accept:"application/json"}});
