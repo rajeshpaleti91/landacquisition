@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NH-163G Pkg III · Land Acquisition Strip Chart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f3f0e7; --paper-2:#fbf9f4; --ink:#13233d; --ink-soft:#4a5670; --ink-faint:#8d95a6;
+  --rule:#c9c3b2; --rule-soft:#ded8c9; --red:#b0341c;
+  --c-clear:#1f6f4a; --c-clear-bg:#dff0e4; --c-issue:#a2701a; --c-issue-bg:#f6ebcf;
+  --c-paid:#0d6b6b; --c-paid-bg:#d6ece9; --c-struct:#5d4a9c; --c-struct-bg:#e6e1f4;
+  --c-survey:#a35618; --c-survey-bg:#f7e3d0; --c-award:#9c2020; --c-award-bg:#f6dcda;
+  --c-review:#6a6a6a; --c-review-bg:#e7e5df; --c-open:#6e7a63; --c-open-bg:#e9ebe0;
+  --c-resolved:#2f7a35; --c-resolved-bg:#ddefd9; --c-pay:#1b5e9c; --c-pay-bg:#d9e6f2;
+  --c-protest:#c0392b; --c-protest-bg:#f9dfdb; --c-deptc:#7a1f6b; --c-deptc-bg:#f1dcee;
+  --c-tree:#6b7f14; --c-tree-bg:#eaefcb; --c-noc:#1a2f5c; --c-noc-bg:#dfe3ec;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --sans:"IBM Plex Sans Condensed","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  background-image:linear-gradient(rgba(19,35,61,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(19,35,61,.035) 1px,transparent 1px);
+  background-size:22px 22px;color:var(--ink);font-family:var(--sans);font-size:14px;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:2200px;margin:0 auto;padding:22px clamp(10px,1.6vw,30px) 80px}
+header.sheet{border:1.5px solid var(--ink);background:var(--paper-2);box-shadow:4px 4px 0 rgba(19,35,61,.10)}
+.mast{display:flex;flex-wrap:wrap;align-items:stretch}
+.mast .blk{padding:12px 16px;border-right:1px solid var(--rule)}
+.mast .blk:last-child{border-right:0}.mast .blk.grow{flex:1 1 340px}
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--red)}
+h1{margin:4px 0 2px;font-size:25px;font-weight:700;letter-spacing:-.01em;line-height:1.05}
+.sub{font-size:12.5px;color:var(--ink-soft)}
+.kv{font-family:var(--mono);font-size:10px;color:var(--ink-faint);letter-spacing:.06em;text-transform:uppercase}
+.kvv{font-family:var(--mono);font-size:16px;font-weight:600;margin-top:3px}
+.toolbar{display:flex;gap:8px;align-items:center;padding:10px 14px;background:var(--paper-2);border:1.5px solid var(--ink);border-top:0}
+button{cursor:pointer;background:var(--ink);color:#fbf9f4;border:1px solid var(--ink);border-radius:0;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;font-size:10.5px;padding:7px 12px}
+button.ghost{background:#fff;color:var(--ink)}button:hover{transform:translateY(-1px)}
+.spacer{flex:1}.live{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
+.live.ok{color:var(--c-clear)}.live.bad{color:var(--red)}
+section.panel{margin-top:18px;border:1.5px solid var(--ink);background:var(--paper-2);box-shadow:4px 4px 0 rgba(19,35,61,.10)}
+.panel-h{display:flex;align-items:baseline;gap:10px;padding:9px 14px;border-bottom:1px solid var(--ink);background:linear-gradient(90deg,rgba(19,35,61,.06),transparent)}
+.panel-h h2{margin:0;font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:700}
+.panel-h .note{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint)}.panel-b{padding:14px}
+.statbar{display:flex;height:26px;border:1px solid var(--ink);margin-bottom:12px;overflow:hidden}
+.chips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.chip{display:grid;grid-template-columns:16px 14px minmax(0,1fr);grid-template-rows:auto auto;column-gap:8px;row-gap:6px;align-items:start;border:1px solid var(--rule);background:#fff;padding:10px 11px;min-height:82px;cursor:pointer;transition:box-shadow .12s ease,opacity .12s ease,border-color .12s ease}
+.chip:hover{border-color:var(--ink-soft)}
+.chip.selected{box-shadow:inset 0 0 0 1.5px var(--ink);background:#fffdf6}
+.chip input[type=checkbox]{grid-column:1;grid-row:1;width:15px;height:15px;margin:2px 0 0;accent-color:var(--ink)}
+.chip .sw{grid-column:2;grid-row:1;width:14px;height:14px;margin-top:2px;border:1px solid rgba(0,0,0,.35)}
+.chip .lbl{grid-column:3;grid-row:1;font-size:12px;line-height:1.3;font-weight:500;overflow-wrap:normal;word-break:normal}
+.chip .num{grid-column:3;grid-row:2;text-align:left;font-family:var(--mono);font-size:12.5px;font-weight:600;white-space:normal}
+.chip .num small{display:inline;font-weight:400;font-size:9.5px;color:var(--ink-faint);margin-left:7px}
+@media(max-width:1400px) and (min-width:901px){.chips{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:900px) and (min-width:601px){.chips{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.selectionbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--rule);background:#fff;padding:9px 10px;margin-bottom:10px}
+.selectionbar .metric{font-family:var(--mono);font-size:11px;color:var(--ink-soft)}
+.selectionbar .metric strong{font-size:16px;color:var(--ink);margin-right:5px}
+.selectionbar .metric small{display:block;font-size:9px;color:var(--ink-faint);margin-top:2px}
+.selectionbar .actions{margin-left:auto;display:flex;gap:6px}
+.selectionbar button{padding:5px 8px;font-size:9.5px}
+.seg.dim{opacity:.18}
+
+.chartscroll{overflow-x:auto}svg.strip{display:block;width:100%;height:auto;background:#fff}svg.strip text{font-family:var(--sans);font-variant-ligatures:none}svg.strip text.num{font-family:var(--mono)}
+.seg{cursor:pointer}.seg:hover .segbox{filter:brightness(.96)}
+.warn{font-family:var(--mono);font-size:11.5px;padding:6px 9px;border-left:3px solid var(--red);background:#fff;margin-bottom:6px}.warn.ok{border-left-color:var(--c-clear);color:var(--ink-soft)}
+.loading{padding:30px;text-align:center;font-family:var(--mono);color:var(--ink-faint)}
+.errorbox{padding:16px;border:1px solid #d8a9a0;background:#fff5f3;color:#7d2416;font-family:var(--mono);font-size:11px;line-height:1.6}
+.tblwrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:1500px;background:#fff;table-layout:fixed}
+col.c-num{width:34px}col.c-dot{width:8px}col.c-ch{width:82px}col.c-len{width:65px}col.c-vil{width:150px}col.c-sy{width:140px}col.c-comp{width:190px}col.c-title{width:120px}col.c-rem{width:auto}col.c-poss{width:105px}col.c-cat{width:190px}
+th,td{border:1px solid var(--rule-soft);padding:6px 7px;vertical-align:top;text-align:left;overflow-wrap:anywhere}
+thead th{background:#eeeadf;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);position:sticky;top:0;z-index:2;border-color:var(--rule)}
+tbody tr:nth-child(even) td{background:#fcfbf7}tbody tr.flash td{background:#fff2c9 !important;transition:background .1s}
+td.rownum{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);text-align:center}td.dot{padding:0}td.ch,td.len{font-family:var(--mono);white-space:nowrap}td.len{text-align:right;color:var(--ink-soft)}td.cat{font-family:var(--mono);font-size:10.5px;font-weight:600}
+@media(max-width:600px){.wrap{padding:14px 10px 60px}.mast .blk{flex:1 1 50%;border-top:1px solid var(--rule)}.mast .blk.grow{flex:1 1 100%;border-top:0}.chips{grid-template-columns:1fr}h1{font-size:20px}.toolbar{flex-wrap:wrap}.live{flex:1 1 100%}}
+
+@page{size:A4 landscape;margin:7mm}
+@media print{
+  html,body{background:#fff!important;background-image:none!important;color:#000;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  .noprint{display:none!important}.wrap{max-width:none!important;width:100%!important;padding:0!important;margin:0!important}
+  header.sheet,section.panel{box-shadow:none!important;border:0.6pt solid #27364c!important;margin-top:4mm!important;background:#fff!important}
+  header.sheet{margin-top:0!important;break-inside:avoid}.mast .blk{padding:2.2mm 3mm}.eyebrow{font-size:6.5pt}h1{font-size:15pt}.sub{font-size:7.5pt}.kv{font-size:6pt}.kvv{font-size:9pt}
+  .panel-h{padding:1.6mm 2.5mm;background:#f1f1ee!important}.panel-h h2{font-size:7pt}.panel-h .note{font-size:6pt}.panel-b{padding:2.2mm}
+  #summaryPanel{break-inside:avoid}.selectionbar{padding:1.5mm 2mm;margin-bottom:2mm}.selectionbar .metric{font-size:6pt}.selectionbar .metric strong{font-size:8pt}.selectionbar .actions{display:none}.statbar{height:5mm;margin-bottom:2mm}.chips{grid-template-columns:repeat(4,1fr);gap:1.2mm}.chip{display:grid;grid-template-columns:3mm 1fr;grid-template-rows:auto auto;padding:1.3mm 1.5mm;column-gap:1.4mm;row-gap:.6mm;min-height:0;cursor:default}.chip input[type=checkbox]{display:none}.chip .sw{grid-column:1;grid-row:1;width:3mm;height:3mm}.chip .lbl{grid-column:2;grid-row:1;font-size:6.3pt;line-height:1.15}.chip .num{grid-column:2;grid-row:2;font-size:6.2pt}.chip .num small{font-size:5.2pt;margin-left:1.2mm}
+  #chartPanel{break-before:page;break-inside:auto}.chartscroll{overflow:visible!important}svg.strip{width:100%!important;height:auto!important;max-width:100%!important}
+  #continuityPanel{break-inside:avoid}.warn{font-size:6.5pt;padding:1mm 1.5mm;margin-bottom:1mm}
+  #registerPanel{break-before:page;border:0!important}.tblwrap{overflow:visible!important}
+  table{min-width:0!important;width:100%!important;table-layout:fixed!important;font-size:6.8pt;line-height:1.18}
+  thead{display:table-header-group}tr{break-inside:avoid;page-break-inside:avoid}th,td{padding:1.05mm 1.15mm;border:0.35pt solid #aaa!important;overflow:visible!important;overflow-wrap:anywhere!important}
+  thead th{position:static!important;font-size:5.6pt;letter-spacing:.02em;background:#eceae4!important}
+  col.c-num{width:3%}col.c-dot{width:0.8%}col.c-ch{width:6.5%}col.c-len{width:5%}col.c-vil{width:11%}col.c-sy{width:10%}col.c-comp{width:14%}col.c-title{width:9%}col.c-rem{width:23%}col.c-poss{width:8%}col.c-cat{width:13.7%}
+  td.rownum,td.ch,td.len,td.cat{font-size:6.1pt}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="sheet">
+  <div class="mast">
+    <div class="blk grow">
+      <div class="eyebrow">Land Acquisition · Strip Chart</div>
+      <h1>NH-163G Warangal–Khammam Package III — Chainage-wise Land Status</h1>
+    </div>
+    <div class="blk"><div class="kv">Chainage Range</div><div class="kvv" id="mRange">—</div></div>
+    <div class="blk"><div class="kv">Length Mapped</div><div class="kvv" id="mLen">—</div></div>
+    <div class="blk"><div class="kv">Reaches</div><div class="kvv" id="mSeg">—</div></div>
+    <div class="blk"><div class="kv">Encumbered</div><div class="kvv" id="mEnc">—</div></div>
+  </div>
+</header>
+<div class="toolbar noprint">
+  <button id="bCsv" class="ghost">Export CSV</button>
+  <button id="bPrint">Print</button>
+  <div class="spacer"></div>
+  <div class="live" id="liveStatus">Connecting to Supabase…</div>
+</div>
+
+<section class="panel" id="summaryPanel">
+  <div class="panel-h"><h2>Status Distribution</h2><span class="note" id="sumNote">select one or more statuses to calculate combined land length and percentage</span></div>
+  <div class="panel-b">
+    <div class="selectionbar">
+      <div class="metric" id="selectedMetric"><strong>0.000 km</strong> selected · 0.00% of total project length<small>Project length: 30.830 km · Ch. 189+650 to 220+480</small></div>
+      <div class="metric" id="mappedMetric"></div>
+      <div class="actions noprint"><button id="bSelectAll" class="ghost">Select All</button><button id="bClearSelection" class="ghost">Clear</button></div>
+    </div>
+    <div class="statbar" id="statbar"></div>
+    <div class="chips" id="chips"></div>
+  </div>
+</section>
+
+<section class="panel" id="chartPanel">
+  <div class="panel-h"><h2>Strip Chart</h2><span class="note">U/S — PCL — R/S · ticks at 100 m · click a reach to locate it in the register</span></div>
+  <div class="panel-b" style="padding:0"><div class="chartscroll"><svg id="strip" class="strip" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet"></svg></div></div>
+</section>
+
+<section class="panel" id="continuityPanel">
+  <div class="panel-h"><h2>Continuity Check</h2><span class="note">gaps / overlaps against PCL chainage</span></div>
+  <div class="panel-b" id="warns"></div>
+</section>
+
+<section class="panel" id="registerPanel">
+  <div class="panel-h"><h2>Land Status Register</h2><span class="note">read-only · live from Supabase</span></div>
+  <div class="panel-b" style="padding:0">
+    <div class="tblwrap">
+      <table id="tbl">
+        <colgroup>
+          <col class="c-num"><col class="c-dot"><col class="c-ch"><col class="c-ch"><col class="c-len"><col class="c-vil"><col class="c-sy"><col class="c-comp"><col class="c-title"><col class="c-rem"><col class="c-poss"><col class="c-cat">
+        </colgroup>
+        <thead><tr><th></th><th></th><th>From</th><th>To</th><th>Length</th><th>Village</th><th>Survey Nos.</th><th>Compensation / Payment</th><th>Title Status</th><th>Encumbrance / Remarks</th><th>Possession</th><th>Status Class</th></tr></thead>
+        <tbody><tr><td colspan="12" class="loading">Loading land status…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+</div>
+
+<script>
+/* ============================================================
+   SUPABASE CONFIGURATION
+   Replace the two values below with your project values.
+   The anon key is intended for browser use. Keep RLS enabled and
+   grant only SELECT to anon for this read-only page.
+   ============================================================ */
+const SUPABASE_URL = "https://tamifxlkhcddqkwjajse.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRhbWlmeGxraGNkZHFrd2phanNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwMzU0NTgsImV4cCI6MjEwMjYxMTQ1OH0.7W0tdb9O53XhtyFFON6_s3laQ2cv8O4KWLGo7WNWH3Q";
+const PROJECT_CODE = "NH163G-PKG-III";
+
+const CATS = {
+  work_started:{label:"Payment Completed · Work Commenced · No Hindrance",hex:"#0d6b6b",bghex:"#d6ece9",enc:false,s:"WORK COMMENCED · NO HINDRANCE"},
+  resolved:{label:"Payment Completed · Constraint Resolved · No Hindrance",hex:"#2f7a35",bghex:"#ddefd9",enc:false,s:"CONSTRAINT RESOLVED"},
+  work_yet_to_commence:{label:"Payment Completed · Work Yet to Commence",hex:"#6e7a63",bghex:"#e9ebe0",enc:false,s:"WORK YET TO COMMENCE"},
+  payment_pending:{label:"Payment Pending",hex:"#1b5e9c",bghex:"#d9e6f2",enc:true,s:"PAYMENT PENDING"},
+  farmer_protest:{label:"Hindrance · Farmer Protest",hex:"#c0392b",bghex:"#f9dfdb",enc:true,s:"FARMER PROTEST"},
+  forest:{label:"Hindrance · Forest Department",hex:"#6b7f14",bghex:"#eaefcb",enc:true,s:"FOREST DEPARTMENT"},
+  irrigation_noc:{label:"Hindrance · Irrigation NOC Pending",hex:"#1a2f5c",bghex:"#dfe3ec",enc:true,s:"IRRIGATION NOC PENDING"},
+  payment_tree_structure:{label:"Payment Completed · Tree / Structure Hindrance",hex:"#5d4a9c",bghex:"#e6e1f4",enc:true,s:"TREE / STRUCTURE HINDRANCE"},
+  court_clear:{label:"Court Deposit · Clear Title · No Other Hindrance",hex:"#1f6f4a",bghex:"#dff0e4",enc:false,s:"COURT DEPOSIT · CLEAR TITLE"},
+  court_clear_hindrance:{label:"Court Deposit · Clear Title · Tree / Structure Hindrance",hex:"#a2701a",bghex:"#f6ebcf",enc:true,s:"CLEAR TITLE · TREE / STRUCTURE"},
+  court_disputed:{label:"Court Deposit · Disputed Title · No Other Hindrance",hex:"#8a5c16",bghex:"#f3e6c9",enc:true,s:"DISPUTED TITLE"},
+  court_disputed_hindrance:{label:"Court Deposit · Disputed Title · Tree / Structure Hindrance",hex:"#9c2020",bghex:"#f6dcda",enc:true,s:"DISPUTED · TREE / STRUCTURE"},
+  survey:{label:"Survey / Demarcation Pending · Plots / Government Land",hex:"#a35618",bghex:"#f7e3d0",enc:true,s:"SURVEY / DEMARCATION PENDING"},
+  mjb:{label:"Major Bridge (MJB)",hex:"#68478d",bghex:"#e8def2",enc:true,s:"MAJOR BRIDGE (MJB)"},
+  rob:{label:"ROB",hex:"#2d5f8a",bghex:"#dce8f2",enc:true,s:"ROB"},
+  award:{label:"Award Pending · 3G/3H",hex:"#7a1f6b",bghex:"#f1dcee",enc:true,s:"AWARD PENDING · 3G/3H"}
+};
+const FALLBACK_CAT={label:"Status not configured",hex:"#6a6a6a",bghex:"#e7e5df",enc:true,s:"STATUS NOT CONFIGURED"};
+
+let DATA=[];
+const PROJECT_START=189650;
+const PROJECT_END=220480;
+const PROJECT_LENGTH=PROJECT_END-PROJECT_START;
+const SELECTED=new Set();
+let SCREEN_BAND=1000;
+let PRINT_BAND=2000;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const val=s=>s==null||String(s).trim()===""?"—":String(s);
+const fmt=m=>{
+  if(m==null||isNaN(m))return "—";
+  const kmPart=Math.floor(Number(m)/1000);
+  const rem=Number(m)-kmPart*1000;
+  const whole=Math.abs(rem-Math.round(rem))<1e-9;
+  const remText=whole?String(Math.round(rem)).padStart(3,"0"):rem.toFixed(3).padStart(7,"0");
+  return kmPart+"+"+remText;
+};
+const km=m=>(m/1000).toFixed(3);
+const sortData=()=>DATA.sort((a,b)=>a.f-b.f||a.t-b.t);
+
+function normalise(rows){
+  return rows.map((r,i)=>({
+    id:r.id||String(i+1), f:Number(r.from_chainage), t:Number(r.to_chainage),
+    v:val(r.village), sy:val(r.survey_nos), comp:val(r.compensation_status), title:val(r.title_status),
+    rem:r.remarks||"", poss:val(r.possession_status), cat:CATS[r.status_class]?r.status_class:"__unknown"
+  })).filter(r=>Number.isFinite(r.f)&&Number.isFinite(r.t)&&r.t>r.f);
+}
+
+async function loadFromSupabase(){
+  const status=$("#liveStatus");
+  try{
+    if(SUPABASE_URL.includes("YOUR_PROJECT_REF") || SUPABASE_ANON_KEY.includes("YOUR_SUPABASE_ANON_KEY")) throw new Error("Add SUPABASE_URL and SUPABASE_ANON_KEY near the top of the script.");
+    const fields="id,from_chainage,to_chainage,village,survey_nos,compensation_status,title_status,remarks,possession_status,status_class";
+    const url=`${SUPABASE_URL}/rest/v1/land_acquisition_reaches?select=${encodeURIComponent(fields)}&project_code=eq.${encodeURIComponent(PROJECT_CODE)}&order=from_chainage.asc,to_chainage.asc`;
+    const res=await fetch(url,{headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`,Accept:"application/json"}});
+    if(!res.ok){const text=await res.text();throw new Error(`Supabase ${res.status}: ${text}`)}
+    DATA=normalise(await res.json());
+    sortData(); renderAll();
+    status.textContent=`Live · ${DATA.length} reaches loaded`; status.className="live ok";
+  }catch(err){
+    console.error(err); status.textContent="Supabase connection failed"; status.className="live bad";
+    $("#tbl tbody").innerHTML=`<tr><td colspan="12"><div class="errorbox"><b>Could not load Supabase data.</b><br>${esc(err.message)}<br><br>Check the URL, anon key and SELECT policy.</div></td></tr>`;
+  }
+}
+
+function summary(){
+  if(!DATA.length)return;
+  const mapped=DATA.reduce((sum,r)=>sum+Math.max(0,r.t-r.f),0),by={};
+  DATA.forEach(r=>by[r.cat]=(by[r.cat]||0)+Math.max(0,r.t-r.f));
+  const enc=DATA.filter(r=>CATS[r.cat]?.enc).reduce((sum,r)=>sum+Math.max(0,r.t-r.f),0);
+  const mn=Math.min(...DATA.map(r=>r.f)),mx=Math.max(...DATA.map(r=>r.t));
+  $("#mRange").textContent=fmt(mn)+" → "+fmt(mx);
+  $("#mLen").textContent=km(mapped)+" km";
+  $("#mSeg").textContent=DATA.length;
+  $("#mEnc").innerHTML=km(enc)+" km <span style='font-size:10px;color:var(--ink-faint)'>"+(enc/PROJECT_LENGTH*100).toFixed(2)+"%</span>";
+
+  $("#statbar").innerHTML=Object.keys(CATS).filter(k=>by[k]).map(k=>`<div title="${esc(CATS[k].label)} — ${km(by[k])} km" style="flex:${by[k]} 0 0;background:${CATS[k].hex}"></div>`).join("");
+
+  $("#chips").innerHTML=Object.keys(CATS).map(k=>{
+    const L=by[k]||0,n=DATA.filter(r=>r.cat===k).length,checked=SELECTED.has(k);
+    return `<label class="chip ${checked?'selected':''}" style="${L?'':'opacity:.42'}">
+      <input type="checkbox" data-status="${k}" ${checked?'checked':''}>
+      <span class="sw" style="background:${CATS[k].bghex};border-color:${CATS[k].hex}"></span>
+      <span class="lbl">${esc(CATS[k].label)}</span>
+      <span class="num">${km(L)} km<small>${n} reach${n===1?'':'es'} · ${(L/PROJECT_LENGTH*100).toFixed(2)}%</small></span>
+    </label>`;
+  }).join("");
+
+  updateSelectedMetric(mapped);
+}
+
+function updateSelectedMetric(mappedOverride){
+  const mapped=mappedOverride??DATA.reduce((sum,r)=>sum+Math.max(0,r.t-r.f),0);
+  const selectedLength=DATA.filter(r=>SELECTED.has(r.cat)).reduce((sum,r)=>sum+Math.max(0,r.t-r.f),0);
+  const selectedPct=PROJECT_LENGTH?selectedLength/PROJECT_LENGTH*100:0;
+  $("#selectedMetric").innerHTML=`<strong>${km(selectedLength)} km</strong> selected · ${selectedPct.toFixed(2)}% of total project length<small>Project length: ${km(PROJECT_LENGTH)} km · Ch. ${fmt(PROJECT_START)} to ${fmt(PROJECT_END)}</small>`;
+  $("#mappedMetric").innerHTML=`<strong>${km(mapped)} km</strong> mapped · ${(mapped/PROJECT_LENGTH*100).toFixed(2)}%<small>Mapped register coverage</small>`;
+}
+
+function selectionActive(){return SELECTED.size>0;}
+
+
+const CH={L:74,R:26,ROW:154,PAD_T:16,MINW:620};
+const _mc=document.createElement("canvas").getContext("2d");
+const SANS='"IBM Plex Sans Condensed","Helvetica Neue",Helvetica,Arial,sans-serif';
+const MONO='"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace';
+function tw(str,fs,{mono=false,bold=false,ls=0}={}){_mc.font=`${bold?"600 ":""}${fs}px ${mono?MONO:SANS}`;return _mc.measureText(String(str||"")).width+ls*String(str||"").length}
+function fit(str,px,fs,o){str=String(str||"");if(px<=0)return"";if(tw(str,fs,o)<=px)return str;let lo=0,hi=str.length;while(lo<hi){const mid=(lo+hi+1)>>1;if(tw(str.slice(0,mid)+"…",fs,o)<=px)lo=mid;else hi=mid-1}return lo<=0?"":str.slice(0,lo).replace(/[\s,.·\-–]+$/,"")+"…"}
+function pick(cands,px,fs,o){for(const c of cands)if(c&&tw(c,fs,o)<=px)return c;return fit(cands[cands.length-1],px,fs,o)}
+function wrapTo(str,px,fs,n,o){if(px<=10)return[];const words=String(str||"").split(/\s+/).filter(Boolean),lines=[];let cur="",i=0;for(;i<words.length;i++){const w=words[i];if(!cur){cur=w;continue}if(tw(cur+" "+w,fs,o)<=px)cur+=" "+w;else{lines.push(cur);cur=w;if(lines.length===n){cur="";break}}}if(lines.length<n&&cur){lines.push(cur);i=words.length}if(lines.length===n&&i<words.length)lines[n-1]=fit(lines[n-1]+" "+words.slice(i).join(" "),px,fs,o);return lines.filter(Boolean).slice(0,n)}
+function chartWidth(){const box=$(".chartscroll"),w=box?box.clientWidth:1200;return Math.max(CH.MINW,Math.min(2600,Math.floor(w)-2))}
+
+function drawChart(bandOverride){
+  const svg=$("#strip"); if(!DATA.length){svg.innerHTML="";return}
+  const W=chartWidth(),band=bandOverride||SCREEN_BAND,mn=Math.min(...DATA.map(r=>r.f)),mx=Math.max(...DATA.map(r=>r.t));
+  const start=Math.floor(mn/band)*band,end=Math.ceil(mx/band)*band,rows=Math.max(1,Math.round((end-start)/band)),plotW=W-CH.L-CH.R,mPx=plotW/band,H=CH.PAD_T+rows*CH.ROW+10;
+  let g=`<defs><pattern id="hatch" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#f0eee7"/><line x1="0" y1="0" x2="0" y2="7" stroke="#b9b3a4" stroke-width="2"/></pattern></defs>`;
+  for(let i=0;i<rows;i++){
+    const rs=start+i*band,re=rs+band,y0=CH.PAD_T+i*CH.ROW,us=y0+16,pcl=y0+60,rsY=y0+104,ax=y0+120,X=m=>CH.L+(m-rs)*mPx;
+    g+=`<g><text class="num" x="4" y="${y0+10}" font-size="10" fill="#8d95a6" letter-spacing="1.2">${band>=1000?"KM "+Math.floor(rs/1000)+(band>=2000?"–"+Math.floor((re-1)/1000):""):"KM "+fmt(rs)}</text>`;
+    g+=`<line x1="${CH.L}" y1="${us}" x2="${W-CH.R}" y2="${us}" stroke="#13233d" stroke-width="1.2"/><line x1="${CH.L}" y1="${rsY}" x2="${W-CH.R}" y2="${rsY}" stroke="#13233d" stroke-width="1.2"/>`;
+    g+=`<text x="${CH.L-7}" y="${us+3.5}" text-anchor="end" font-size="9.5" fill="#13233d">U/S</text><text x="${CH.L-7}" y="${rsY+3.5}" text-anchor="end" font-size="9.5" fill="#13233d">R/S</text><text x="${CH.L-7}" y="${pcl+3.5}" text-anchor="end" font-size="9.5" fill="#b0341c" font-weight="600">PCL</text>`;
+    DATA.forEach(r=>{
+      const a=Math.max(r.f,rs),b=Math.min(r.t,re);if(!(b>a))return;const c=CATS[r.cat]||FALLBACK_CAT,x1=X(a),x2=X(b),w=Math.max(1.5,x2-x1),cid="c"+String(r.id).replace(/[^a-zA-Z0-9]/g,"")+"_"+i,pad=5,aw=w-pad*2,tx=x1+pad;
+      g+=`<g class="seg${selectionActive()&&!SELECTED.has(r.cat)?" dim":""}" data-id="${esc(r.id)}"><title>${esc(fmt(r.f))} – ${esc(fmt(r.t))} (${km(r.t-r.f)} km)\n${esc(c.label)}${r.v!=="—"?"\n"+esc(r.v):""}${r.sy!=="—"?" · Sy.No "+esc(r.sy):""}${r.rem?"\n"+esc(r.rem):""}</title><clipPath id="${cid}"><rect x="${x1}" y="${us}" width="${w}" height="${rsY-us}"/></clipPath><rect class="segbox" x="${x1}" y="${us}" width="${w}" height="${rsY-us}" fill="${r.cat==="__unknown"?"url(#hatch)":c.bghex}" stroke="#13233d" stroke-width="${r.f>=rs?1:0}" stroke-opacity=".55"/><line x1="${x1}" y1="${us}" x2="${x1}" y2="${rsY}" stroke="#13233d" stroke-width="1.1"/><line x1="${x2}" y1="${us}" x2="${x2}" y2="${rsY}" stroke="#13233d" stroke-width="1.1"/><g clip-path="url(#${cid})">`;
+      if(aw>20){const o={bold:true,ls:.4},full=c.label.toUpperCase(),shrt=(c.s||c.label).toUpperCase();let lbl="",lfs=10.5;for(const fs of [10.5,9.4,8.4]){if(tw(full,fs,o)<=aw){lbl=full;lfs=fs;break}if(tw(shrt,fs,o)<=aw){lbl=shrt;lfs=fs;break}}if(!lbl){lbl=fit(shrt,aw,8.4,o);lfs=8.4}if(lbl)g+=`<text x="${tx}" y="${us+15}" font-size="${lfs}" font-weight="600" letter-spacing=".4" fill="${c.hex}">${esc(lbl)}</text>`}
+      {const o={mono:true},ch=pick([fmt(r.f)+" – "+fmt(r.t)+" · "+km(r.t-r.f)+" km",fmt(r.f)+" – "+fmt(r.t),km(r.t-r.f)+" km"],aw,9,o);if(ch&&tw(ch,9,o)<=aw)g+=`<text class="num" x="${tx}" y="${us+30}" font-size="9" fill="#6d7688">${esc(ch)}</text>`}
+      let yy=pcl+15;if(r.v!=="—"){const o={bold:true},vv=pick([r.v+(r.sy!=="—"?" · Sy.No "+r.sy:""),r.v],aw,9.5,o);if(vv&&tw(vv,9.5,o)<=aw){g+=`<text x="${tx}" y="${yy}" font-size="9.5" font-weight="600" fill="#13233d">${esc(vv)}</text>`;yy+=13}}
+      if(r.rem&&aw>84)wrapTo(r.rem,aw,9.5,yy>pcl+15?1:2).forEach(ln=>{g+=`<text x="${tx}" y="${yy}" font-size="9.5" fill="#4a5670">${esc(ln)}</text>`;yy+=13});g+=`</g></g>`;
+    });
+    let cursor=rs;sortData().forEach(r=>{if(r.t<=rs||r.f>=re)return;if(r.f>cursor){const a=X(cursor),b=X(Math.min(r.f,re));if(b-a>1)g+=`<rect x="${a}" y="${us}" width="${b-a}" height="${rsY-us}" fill="#faf8f2" stroke="#ded8c9"/>${b-a>66?`<text x="${(a+b)/2}" y="${pcl-5}" font-size="9" fill="#b3ab99" text-anchor="middle">not mapped</text>`:""}`}cursor=Math.max(cursor,r.t)});if(cursor<re){const a=X(cursor),b=X(re);if(b-a>1)g+=`<rect x="${a}" y="${us}" width="${b-a}" height="${rsY-us}" fill="#faf8f2" stroke="#ded8c9"/>${b-a>66?`<text x="${(a+b)/2}" y="${pcl-5}" font-size="9" fill="#b3ab99" text-anchor="middle">not mapped</text>`:""}`}
+    g+=`<line x1="${CH.L}" y1="${pcl}" x2="${W-CH.R}" y2="${pcl}" stroke="#b0341c" stroke-width="1.4"/>`;const step=band>=2000?200:100;for(let m=rs;m<=re;m+=step){const x=X(m),major=m%1000===0;g+=`<path d="M${x-3.2} ${pcl-3.2} L${x+3.2} ${pcl+3.2} M${x-3.2} ${pcl+3.2} L${x+3.2} ${pcl-3.2}" stroke="#b0341c" stroke-width="${major?1.5:1}"/>`}
+    g+=`<line x1="${CH.L}" y1="${ax}" x2="${W-CH.R}" y2="${ax}" stroke="#c9c3b2" stroke-width="1"/>`;const lblW=46,every=Math.max(1,Math.ceil(lblW/(step*mPx)));let k=0;for(let m=rs;m<=re;m+=step,k++){const x=X(m),major=m%1000===0;g+=`<line x1="${x}" y1="${ax}" x2="${x}" y2="${ax+(major?6:3.5)}" stroke="${major?"#13233d":"#c9c3b2"}" stroke-width="1"/>`;if((k%every===0||major)&&x<=W-CH.R-4&&x>=CH.L-4)g+=`<text class="num" x="${x}" y="${ax+17}" font-size="${major?9.2:8.4}" fill="${major?"#13233d":"#8d95a6"}" text-anchor="middle" font-weight="${major?600:400}">${fmt(m)}</text>`}g+=`</g>`;
+  }
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`);svg.setAttribute("width",W);svg.setAttribute("height",H);svg.innerHTML=g;svg.querySelectorAll(".seg").forEach(el=>el.addEventListener("click",()=>focusRow(el.dataset.id)));
+}
+
+function checks(){
+  if(!DATA.length)return;sortData();const out=[];DATA.forEach((r,i)=>{const n=DATA[i+1];if(!n)return;if(n.f>r.t)out.push(`Gap of ${n.f-r.t} m between ${fmt(r.t)} and ${fmt(n.f)} — no land status recorded.`);if(n.f<r.t)out.push(`Overlap of ${r.t-n.f} m at ${fmt(n.f)} – ${fmt(r.t)} (rows ${i+1} & ${i+2}).`)});
+  $("#warns").innerHTML=out.length?out.map(w=>`<div class="warn">${esc(w)}</div>`).join(""):`<div class="warn ok">Chainage continuous from ${fmt(DATA[0].f)} to ${fmt(DATA[DATA.length-1].t)} — no gaps or overlaps.</div>`;
+}
+
+function drawTable(){
+  $("#tbl tbody").innerHTML=DATA.map((r,i)=>{const c=CATS[r.cat]||FALLBACK_CAT;return `<tr data-id="${esc(r.id)}" style="${selectionActive()&&!SELECTED.has(r.cat)?"opacity:.35":""}"><td class="rownum">${i+1}</td><td class="dot" style="background:${c.hex}"></td><td class="ch">${fmt(r.f)}</td><td class="ch">${fmt(r.t)}</td><td class="len">${km(r.t-r.f)}</td><td>${esc(r.v)}</td><td>${esc(r.sy)}</td><td>${esc(r.comp)}</td><td>${esc(r.title)}</td><td>${esc(val(r.rem))}</td><td>${esc(r.poss)}</td><td class="cat" style="color:${c.hex}">${esc(c.label)}</td></tr>`}).join("");
+}
+function focusRow(id){const tr=[...document.querySelectorAll("#tbl tbody tr")].find(x=>x.dataset.id===String(id));if(!tr)return;tr.scrollIntoView({behavior:"smooth",block:"center"});tr.classList.add("flash");setTimeout(()=>tr.classList.remove("flash"),1400)}
+function renderAll(){summary();drawChart();checks();drawTable()}
+function dl(name,type,text){const b=new Blob([text],{type}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1500)}
+
+$("#chips").addEventListener("change",e=>{
+  const el=e.target;if(!el.matches('input[data-status]'))return;
+  if(el.checked)SELECTED.add(el.dataset.status);else SELECTED.delete(el.dataset.status);
+  summary();drawChart();drawTable();
+});
+$("#bSelectAll").addEventListener("click",()=>{Object.keys(CATS).forEach(k=>SELECTED.add(k));summary();drawChart();drawTable();});
+$("#bClearSelection").addEventListener("click",()=>{SELECTED.clear();summary();drawChart();drawTable();});
+
+$("#bCsv").addEventListener("click",()=>{
+  const q=s=>`"${String(s??"").replace(/"/g,'""')}"`;
+  const head=["From","To","Length (km)","Village","Survey Nos","Compensation / Payment","Title Status","Remarks","Possession","Status Class"];
+  const rows=DATA.map(r=>[fmt(r.f),fmt(r.t),km(r.t-r.f),r.v,r.sy,r.comp,r.title,r.rem,r.poss,CATS[r.cat].label].map(q).join(","));
+  dl("NH163G_Warangal_Khammam_PkgIII_land_status.csv","text/csv;charset=utf-8",[head.map(q).join(","),...rows].join("\r\n"));
+});
+
+let printPrepared=false;
+window.addEventListener("beforeprint",()=>{if(DATA.length){printPrepared=true;drawChart(PRINT_BAND)}});
+window.addEventListener("afterprint",()=>{if(printPrepared){printPrepared=false;drawChart(SCREEN_BAND)}});
+$("#bPrint").addEventListener("click",()=>{drawChart(PRINT_BAND);setTimeout(()=>window.print(),80)});
+let rzT;window.addEventListener("resize",()=>{clearTimeout(rzT);rzT=setTimeout(()=>{if(!printPrepared)drawChart(SCREEN_BAND)},140)});
+
+loadFromSupabase();
+</script>
+</body>
+</html>
